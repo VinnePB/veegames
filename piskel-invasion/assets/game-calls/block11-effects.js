@@ -11,7 +11,7 @@ function initStars(count = 200) {
     stars.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      s: Math.random() * 2 + 0.5, // tamanho
+      s: Math.random() * canvas.width * 0.003 + 0.5, // tamanho proporcional
       v: Math.random() * 1.2 + 0.8, // velocidade base
     });
   }
@@ -28,7 +28,7 @@ function updateStars() {
   for (const st of stars) {
     st.y -= st.v * speedFactor;
     if (st.y < 0) {
-      st.y = canvas.height + Math.random() * 20;
+      st.y = canvas.height + Math.random() * canvas.height * 0.03;
       st.x = Math.random() * canvas.width;
     }
   }
@@ -53,7 +53,7 @@ function spawnParticles(count = 5) {
     particles.push({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 2 + 1,
+      r: Math.random() * canvas.width * 0.004 + 1, // raio proporcional
       alpha: 1,
       decay: 0.01 + Math.random() * 0.02,
     });
