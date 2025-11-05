@@ -2,13 +2,18 @@
 // Bloco 9 — Chefe de Fase (Boss)
 // ==============================
 
-const BOSS_BASE = { w: 120, h: 80, hp: 40, speed: 3.0 };
+const BOSS_BASE = {
+  w: canvas.width * 0.15,
+  h: canvas.height * 0.13,
+  hp: 40,
+  speed: 3.0
+};
 const BOSS_BULLET_SPEED = 3.2;
 
 function spawnBoss() {
   boss = {
     x: canvas.width / 2 - BOSS_BASE.w / 2,
-    y: 90,
+    y: canvas.height * 0.15,
     w: BOSS_BASE.w,
     h: BOSS_BASE.h,
     hp: Math.floor(BOSS_BASE.hp * (1 + (wave - 1) * 0.2)),
@@ -53,8 +58,8 @@ function updateBoss() {
       bossBullets.push({
         x: cx + i * 10,
         y: cy,
-        w: 6,
-        h: 14,
+        w: canvas.width * 0.015,
+        h: canvas.height * 0.035,
         vx: i * 0.5,
         vy: BOSS_BULLET_SPEED
       });
@@ -66,7 +71,7 @@ function updateBoss() {
     for (let i = 0; i < numMinions; i++) {
       enemies.push({
         x: 60 + i * (ENEMY_W + 10),
-        y: boss.y + boss.h + 40,
+        y: boss.y + boss.h + canvas.height * 0.05,
         w: ENEMY_W,
         h: ENEMY_H,
         hp: 1,
@@ -104,8 +109,8 @@ function drawBoss() {
   ctx.drawImage(imgBoss, boss.x, boss.y, boss.w, boss.h);
   ctx.restore();
 
-  const barW = 240;
-  const barH = 10;
+  const barW = canvas.width * 0.6;
+  const barH = canvas.height * 0.015;
   const bx = canvas.width / 2 - barW / 2;
   const by = boss.y - 16;
   const pct = Math.max(0, boss.hp / Math.floor(BOSS_BASE.hp * (1 + (wave - 1) * 0.2)));
@@ -156,3 +161,4 @@ function checkBossHit(bb) {
   }
   return false;
 }
+
