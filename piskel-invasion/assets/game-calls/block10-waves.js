@@ -26,7 +26,7 @@ function nextWave() {
   BULLET_COOLDOWN_FRAMES = Math.max(5, Math.floor(BULLET_COOLDOWN_FRAMES * 0.95));
 
   // bônus de progressão
-  score += 25;
+  score += Math.floor(canvas.width * 0.03); // proporcional à tela
 
   // a cada 3 fases, boss aparece
   if (wave % 3 === 0) {
