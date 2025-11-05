@@ -73,7 +73,7 @@ jobs:
           fi
 
       - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ steps.publishdir.outputs.publish_dir }}
 
