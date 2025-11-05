@@ -11,6 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: pages-deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -34,7 +38,9 @@ jobs:
       - name: Setup Node.js (optional)
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "18.x"
+          cache: "npm"
+          cache-dependency-path: piskel-invasion/package-lock.json
 
       - name: Install & build if package.json has a build script
         run: |
@@ -77,7 +83,8 @@ jobs:
           echo "Publish directory: $publish_dir"
 
       - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v1
+        # Upgrade to v2 to avoid dependency on deprecated upload-artifact v3
+        uses: actions/upload-pages-artifact@v2
         with:
           path: ${{ steps.publishdir.outputs.publish_dir }}
 
