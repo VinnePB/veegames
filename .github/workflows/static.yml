@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  github-pages-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,15 +25,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify piskel-invasion folder exists
+      - name: Verify site folder exists
         run: |
           if [ ! -d "piskel-invasion" ]; then
-            echo "ERROR: piskel-invasion folder not found at the repository root."
-            ls -la
+            echo "ERROR: Folder 'piskel-invasion' not found."
             exit 1
           fi
-          echo "Found piskel-invasion/"
-          ls -la piskel-invasion
+          echo "Found folder: piskel-invasion"
 
       - name: Setup Node.js (optional)
         uses: actions/setup-node@v4
@@ -42,48 +40,32 @@ jobs:
           cache: "npm"
           cache-dependency-path: piskel-invasion/package-lock.json
 
-      - name: Install & build if package.json has a build script
+      - name: Install dependencies and build (if needed)
         run: |
-          if [ -f "piskel-invasion/package.json" ]; then
-            echo "package.json found — installing dependencies..."
-            cd piskel-invasion
-            if [ -f package-lock.json ]; then
-              npm ci --silent || npm install --no-audit --no-fund
-            else
-              npm install --no-audit --no-fund
-            fi
-            if node -e "const p=require('./package.json'); console.log(Boolean(p.scripts && p.scripts.build));" | grep -q true; then
-              echo "build script found — running npm run build"
+          cd piskel-invasion
+          if [ -f package.json ]; then
+            npm install --no-audit --no-fund
+            if npm run | grep -q build; then
               npm run build
-            else
-              echo "no build script — skipping build step"
             fi
-            cd ..
-          else
-            echo "no package.json — skipping npm install/build"
           fi
+          cd ..
 
       - name: Determine publish directory
         id: publishdir
         run: |
           if [ -d "piskel-invasion/dist" ]; then
-            publish_dir="piskel-invasion/dist"
-            echo "publish_dir=$publish_dir" >> $GITHUB_OUTPUT
+            echo "publish_dir=piskel-invasion/dist" >> $GITHUB_OUTPUT
           elif [ -d "piskel-invasion/build" ]; then
-            publish_dir="piskel-invasion/build"
-            echo "publish_dir=$publish_dir" >> $GITHUB_OUTPUT
+            echo "publish_dir=piskel-invasion/build" >> $GITHUB_OUTPUT
           elif [ -f "piskel-invasion/index.html" ]; then
-            publish_dir="piskel-invasion"
-            echo "publish_dir=$publish_dir" >> $GITHUB_OUTPUT
+            echo "publish_dir=piskel-invasion" >> $GITHUB_OUTPUT
           else
-            echo "ERROR: No piskel-invasion/index.html or build/dist directory found under piskel-invasion."
-            ls -la piskel-invasion || true
+            echo "ERROR: No valid publish directory found."
             exit 1
           fi
-          echo "Publish directory: $publish_dir"
 
       - name: Upload site artifact
-        # Upgrade to v2 to avoid dependency on deprecated upload-artifact v3
         uses: actions/upload-pages-artifact@v2
         with:
           path: ${{ steps.publishdir.outputs.publish_dir }}
