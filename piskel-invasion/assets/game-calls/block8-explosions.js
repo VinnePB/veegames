@@ -9,7 +9,8 @@ function drawExplosions() {
       ctx.fillStyle = `rgba(${200 + Math.random() * 55}, ${80 + Math.random() * 50}, 0, ${ex.alpha})`;
       const rx = ex.x + (Math.random() - 0.5) * ex.radius;
       const ry = ex.y + (Math.random() - 0.5) * ex.radius;
-      ctx.fillRect(rx, ry, 2, 2);
+      const pxSize = Math.max(2, canvas.width * 0.003); 
+      ctx.fillRect(rx, ry, pxSize, pxSize);
     }
     ex.alpha -= 0.04;
     ex.radius += 0.6;
@@ -64,14 +65,18 @@ function drawFragmentToast() {
   ctx.save();
   ctx.globalAlpha = 0.85 * alpha;
   ctx.fillStyle = "rgba(17,24,39,0.9)";
-  ctx.fillRect(x, y, maxW, 60);
+  const boxH = canvas.height * 0.08;
+  ctx.fillRect(x, y, maxW, boxH); 
+  ctx.strokeRect(x, y, maxW, boxH);
   ctx.globalAlpha = alpha;
   ctx.strokeStyle = "rgba(56,189,248,0.9)";
   ctx.lineWidth = 2;
   ctx.strokeRect(x, y, maxW, 60);
 
   ctx.fillStyle = "cyan";
-  ctx.font = "16px Courier New";
-  ctx.fillText(fragmentToast.text, x + 24, y + 36 - 12);
+ const fontSize = Math.floor(canvas.height * 0.03);
+  ctx.font = `${fontSize}px Courier New`;
+  ctx.fillText(fragmentToast.text, x + canvas.width * 0.03, y + fontSize + 8);
   ctx.restore();
 }
+
