@@ -39,7 +39,7 @@ function moveEnemies() {
   }
   if (edge) {
     enemyDir *= -1;
-    for (const e of enemies) e.y += 20;
+    for (const e of enemies) e.y += canvas.height * 0.03;
   }
 }
 
@@ -62,8 +62,8 @@ function enemyShoot() {
         enemyBullets.push({
           x: e.x + e.w / 2 - 1,
           y: e.y + e.h,
-          w: 3,
-          h: 8,
+          w: canvas.width * 0.01,
+          h: canvas.height * 0.02,
           vx: 0,
           vy: ENEMY_BULLET_SPEED * 1.3
         });
@@ -77,8 +77,8 @@ function enemyShoot() {
           enemyBullets.push({
             x: cx + i * 6,
             y: cy,
-            w: 6,
-            h: 12,
+            w: canvas.width * 0.015,
+            h: canvas.height * 0.03,
             vx: i * 0.4,
             vy: ENEMY_BULLET_SPEED * 0.9
           });
@@ -198,7 +198,7 @@ function startGame() {
 
   // posição segura
   player.x = canvas.width / 2 - player.w / 2;
-  player.y = canvas.height - 70;
+  player.y = canvas.height - canvas.height * 0.12;
 
   createEnemies();
   initStars();
@@ -254,3 +254,4 @@ function renderLeaderboard() {
     `<div>${e.name} — ${e.score} pts (Wave ${e.wave})</div>`
   ).join("");
 }
+
