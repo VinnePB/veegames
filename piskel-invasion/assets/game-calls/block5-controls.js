@@ -8,6 +8,12 @@ const BULLET_H = 12;
 const BULLET_SPEED = 6;
 let BULLET_COOLDOWN_FRAMES = 12; // precisa ser let para ser ajustado no Bloco 10
 
+// --- Flags de controle ---
+let leftPressed = false;
+let rightPressed = false;
+let spacePressed = false;
+let gamePaused = false;
+
 // --- Teclado ---
 document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowLeft") leftPressed = true;
@@ -19,37 +25,23 @@ document.addEventListener("keydown", (e) => {
     if (!gameStarted) {
       startGame();
     } else if (!gameOver) {
-      gamePaused = !gamePaused;
-      if (gamePaused) {
-        pauseAllMusic(); // ✅ pausa todas as OSTs
-      } else {
-        if (currentTrack) currentTrack.play().catch(()=>{});
-      }
+      togglePause();
     }
   }
 
   // P: pause/resume
   if (e.key === "p" || e.key === "P") {
     if (gameStarted && !gameOver) {
-      gamePaused = !gamePaused;
-      if (gamePaused) {
-        pauseAllMusic(); // ✅ pausa todas as OSTs
-      } else {
-        if (currentTrack) currentTrack.play().catch(()=>{});
-      }
+      togglePause();
     }
   }
 
   // R: reiniciar (ignora se estiver digitando no input do placar)
   if ((e.key === "r" || e.key === "R") && (gamePaused || gameOver)) {
-    // ✅ bloqueia R se estiver em gameOver (agora só os botões funcionam)
     if (gameOver) return;
-
     const active = document.activeElement;
     const typing = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA");
-    if (!typing) {
-      restartGame();
-    }
+    if (!typing) restartGame();
   }
 });
 
@@ -58,6 +50,40 @@ document.addEventListener("keyup", (e) => {
   if (e.key === "ArrowRight") rightPressed = false;
   if (e.code === "Space") spacePressed = false;
 });
+
+// --- Toque (mobile) ---
+const btnLeft = document.getElementById("btnLeft");
+const btnRight = document.getElementById("btnRight");
+const btnShoot = document.getElementById("btnShoot");
+const btnPause = document.getElementById("btnPause");
+
+if (btnLeft) {
+  btnLeft.addEventListener("touchstart", () => leftPressed = true);
+  btnLeft.addEventListener("touchend", () => leftPressed = false);
+}
+if (btnRight) {
+  btnRight.addEventListener("touchstart", () => rightPressed = true);
+  btnRight.addEventListener("touchend", () => rightPressed = false);
+}
+if (btnShoot) {
+  btnShoot.addEventListener("touchstart", () => spacePressed = true);
+  btnShoot.addEventListener("touchend", () => spacePressed = false);
+}
+if (btnPause) {
+  btnPause.addEventListener("click", () => {
+    if (gameStarted && !gameOver) togglePause();
+  });
+}
+
+// --- Função de pausa ---
+function togglePause() {
+  gamePaused = !gamePaused;
+  if (gamePaused) {
+    pauseAllMusic();
+  } else {
+    if (currentTrack) currentTrack.play().catch(() => {});
+  }
+}
 
 // --- Movimento do player ---
 function movePlayer() {
