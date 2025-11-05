@@ -59,7 +59,7 @@ imgBoss.src = "assets/sprites/spr_boss.png";
 // --- Músicas ---
 const ostMenu = new Audio("assets/sounds/menu.mp3");
 const ostAbout = new Audio("assets/sounds/about.mp3");
-const ostOldOn = new Audio("assets/sounds/oldOn.mp3");
+const ostOldOn = new Audio("piskel-invasion/assets/sounds/OldOn.mp3");
 const ostTakenCare = new Audio("assets/sounds/TakenCare.mp3");
 const ostWaves = [
   new Audio("assets/sounds/wave1.mp3"),
@@ -84,3 +84,4 @@ function pauseAllMusic() {
     if (!m.paused) m.pause();
   });
 }
+
