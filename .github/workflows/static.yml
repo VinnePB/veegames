@@ -40,13 +40,6 @@ jobs:
           fi
           echo "Found folder: piskel-invasion"
 
-      - name: Setup Node.js (optional)
-        uses: actions/setup-node@v4
-        with:
-          node-version: "18.x"
-          cache: "npm"
-          cache-dependency-path: piskel-invasion/package-lock.json
-
       - name: Install dependencies and build (if needed)
         run: |
           cd piskel-invasion
