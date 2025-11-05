@@ -10,6 +10,11 @@ const sfxHit = new Audio("assets/sounds/hit.wav");
 const sfxBossExplosion = new Audio("assets/sounds/boss_explosion.wav");
 
 // Ajuste de volume padrão
+[sfxShoot, sfxExplosion, sfxPowerUp, sfxHit, sfxBossExplosion].forEach(s => {
+  s.preload = "auto";
+  s.crossOrigin = "anonymous";
+});
+
 sfxShoot.volume = 0.4;
 sfxExplosion.volume = 0.6;
 sfxPowerUp.volume = 0.5;
