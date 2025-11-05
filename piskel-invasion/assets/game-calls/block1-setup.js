@@ -6,11 +6,13 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// Garante tamanho padrão se não estiver definido no HTML/CSS
-if (!canvas.width || !canvas.height) {
-  canvas.width = 800;
-  canvas.height = 600;
+// Redimensiona o canvas para ocupar toda a tela
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas(); // chama ao carregar
 
 // --- Música (loop no index.html) ---
 const music = document.getElementById("music");
