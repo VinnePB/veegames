@@ -95,7 +95,7 @@ function checkCollisions() {
             powerUps.push({
               x: en.x + en.w / 2 - POWERUP_SIZE / 2,
               y: en.y + en.h / 2 - POWERUP_SIZE / 2,
-              size: POWERUP_SIZE,
+              size: canvas.width * 0.05,
               type,
             });
           }
@@ -116,19 +116,20 @@ function checkCollisions() {
   }
 
   // ✅ hitbox reduzida do player
-  const playerHitbox = {
-    x: player.x + 6,
-    y: player.y + 4,
-    w: player.w - 12,
-    h: player.h - 8
-  };
+ const playerHitbox = {
+  x: player.x + player.w * 0.075,
+  y: player.y + player.h * 0.07,
+  w: player.w * 0.85,
+  h: player.h * 0.86
+};
+
 
   // 2) Balas dos inimigos vs player
   for (let i = enemyBullets.length - 1; i >= 0; i--) {
     const eb = enemyBullets[i];
     if (rectsCollide(eb.x, eb.y, eb.w, eb.h, playerHitbox.x, playerHitbox.y, playerHitbox.w, playerHitbox.h)) {
       enemyBullets.splice(i, 1);
-      const dmg = eb.w > 3 ? 2 : 1;
+      const dmg = eb.w > canvas.width * 0.012 ? 2 : 1;
       applyDamageToPlayer(dmg);
     }
   }
@@ -164,3 +165,4 @@ function checkCollisions() {
   // 6) Feedback
   updatePlayerHitFeedback();
 }
+
