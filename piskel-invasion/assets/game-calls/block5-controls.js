@@ -9,10 +9,12 @@ const BULLET_SPEED = 6;
 let BULLET_COOLDOWN_FRAMES = 12; // precisa ser let para ser ajustado no Bloco 10
 
 // --- Flags de controle ---
-let leftPressed = false;
-let rightPressed = false;
-let spacePressed = false;
-let gamePaused = false;
+// Removidas as re-declarações com "let"
+// As variáveis já devem existir globalmente
+leftPressed = false;
+rightPressed = false;
+spacePressed = false;
+gamePaused = false;
 
 // --- Teclado ---
 document.addEventListener("keydown", (e) => {
@@ -20,7 +22,6 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "ArrowRight") rightPressed = true;
   if (e.code === "Space") spacePressed = true;
 
-  // Enter: iniciar ou pausar
   if (e.key === "Enter") {
     if (!gameStarted) {
       startGame();
@@ -29,14 +30,12 @@ document.addEventListener("keydown", (e) => {
     }
   }
 
-  // P: pause/resume
   if (e.key === "p" || e.key === "P") {
     if (gameStarted && !gameOver) {
       togglePause();
     }
   }
 
-  // R: reiniciar (ignora se estiver digitando no input do placar)
   if ((e.key === "r" || e.key === "R") && (gamePaused || gameOver)) {
     if (gameOver) return;
     const active = document.activeElement;
