@@ -101,5 +101,17 @@
   <script src="assets/game-calls/block10-waves.js" defer></script>
   <script src="assets/game-calls/block11-effects.js" defer></script>
   <script src="assets/game-calls/block12-sounds.js" defer></script>
+
+  <!-- Música do menu ao carregar -->
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      if (typeof stopAllMusic === "function") stopAllMusic();
+      if (typeof ostMenu !== "undefined") {
+        currentTrack = ostMenu;
+        currentTrack.loop = true;
+        currentTrack.play().catch(() => {});
+      }
+    });
+  </script>
 </body>
 </html>
