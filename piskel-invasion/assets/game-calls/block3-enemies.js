@@ -5,8 +5,8 @@
 // --- Configuração dos inimigos ---
 const ENEMY_ROWS = 4;
 const ENEMY_COLS = 8;
-const ENEMY_W = 40;
-const ENEMY_H = 30;
+const ENEMY_W = canvas.width * 0.06;
+const ENEMY_H = ENEMY_W * 0.8; // proporção visual ajustada
 const ENEMY_PADDING_X = 20;
 const ENEMY_PADDING_Y = 22;
 const ENEMY_OFFSET_X = 60;
@@ -39,3 +39,4 @@ function createEnemies() {
     }
   }
 }
+
