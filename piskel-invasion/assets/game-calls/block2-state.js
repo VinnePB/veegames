@@ -20,23 +20,23 @@ const player = {
   h: 30,
   speed: 6,
   lives: 3,
-  vibrateTimer: 0,        // vibração ao ser atingido
-  shieldTimer: 0,         // escudo temporário
+  vibrateTimer: 0,
+  shieldTimer: 0,
   shieldColor: "rgba(180, 240, 255, 0.85)",
-  doubleShotTimer: 0,     // duração do upgrade
-  doubleShotLevel: 0      // 0 = normal, 1 = tiros duplos, 2 = duplos + foguetes
+  doubleShotTimer: 0,
+  doubleShotLevel: 0
 };
 
 // --- Listas globais ---
-const bullets = [];        // tiros do player
-const enemyBullets = [];   // tiros dos inimigos
-const bossBullets = [];    // tiros do chefe
-const powerUps = [];       // power-ups em tela
-const explosions = [];     // explosões em tela
-const enemies = [];        // inimigos ativos
+const bullets = [];
+const enemyBullets = [];
+const bossBullets = [];
+const powerUps = [];
+const explosions = [];
+const enemies = [];
 
 // --- Controle de tiro ---
-let bulletCooldown = 0; // frames até poder atirar novamente
+let bulletCooldown = 0;
 
 // --- Boss ---
 let boss = null;
@@ -50,45 +50,42 @@ let wave = 1;
 let startTime = 0;
 let elapsedTime = 0;
 
-// --- Constantes globais  ---
-const KILL_SCORE = 10; // pontos por inimigo normal
+// --- Constantes globais ---
+const KILL_SCORE = 10;
 const POWERUP_SIZE = 24;
+
+// ✅ Proporção corrigida dos inimigos
+let ENEMY_W = canvas.width * 0.06;
+let ENEMY_H = ENEMY_W * 0.8; // proporção visual ajustada
 
 // ==============================
 // Controles da tela de Game Over
 // ==============================
 
-// Botão Continuar → reinicia o jogo
 document.getElementById("continueButton").addEventListener("click", () => {
   ostTakenCare.pause();
   ostTakenCare.currentTime = 0;
-  restartGame(); // função já existente no loop
+  restartGame();
 });
 
-// Botão Sair → volta ao menu
 document.getElementById("exitButton").addEventListener("click", () => {
-  // parar música da tela de morte
   ostTakenCare.pause();
   ostTakenCare.currentTime = 0;
 
-  // cancelar loop do jogo
   if (loopId) {
     cancelAnimationFrame(loopId);
     loopId = null;
   }
 
-  // resetar estado
   gameStarted = false;
   gamePaused = false;
   gameOver = false;
 
-  // esconder telas de jogo e mostrar menu
   document.getElementById("gameOverScreen").style.display = "none";
   document.getElementById("gameCanvas").style.display = "none";
   document.getElementById("info").style.display = "none";
   document.getElementById("menu").style.display = "block";
 
-  // tocar música do menu
   stopAllMusic();
   currentTrack = ostMenu;
   currentTrack.loop = true;
