@@ -54,10 +54,6 @@ let elapsedTime = 0;
 const KILL_SCORE = 10;
 const POWERUP_SIZE = 24;
 
-// ✅ Proporção corrigida dos inimigos
-let ENEMY_W = canvas.width * 0.06;
-let ENEMY_H = ENEMY_W * 0.8; // proporção visual ajustada
-
 // ==============================
 // Controles da tela de Game Over
 // ==============================
@@ -101,3 +97,4 @@ window.addEventListener("load", () => {
   currentTrack.loop = true;
   currentTrack.play().catch(()=>{});
 });
+
