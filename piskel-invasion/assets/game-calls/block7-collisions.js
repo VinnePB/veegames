@@ -134,13 +134,13 @@ function checkCollisions() {
     }
   }
 
-  // 3) Balas do boss vs player
-  for (let i = bossBullets.length - 1; i >= 0; i--) {
+    // 3) Balas do boss vs player
+    for (let i = bossBullets.length - 1; i >= 0; i--) {
     const b = bossBullets[i];
     if (rectsCollide(b.x, b.y, b.w, b.h, playerHitbox.x, playerHitbox.y, playerHitbox.w, playerHitbox.h)) {
-      bossBullets.splice(i, 1);
-      const dmg = b.vx !== 0 ? 3 : 1;
-      applyDamageToPlayer(dmg);
+    bossBullets.splice(i, 1);
+    const dmg = b.vx !== 0 ? 2 : 1; // dano reduzido de 3 → 2
+    applyDamageToPlayer(dmg);
     }
   }
 
@@ -165,4 +165,5 @@ function checkCollisions() {
   // 6) Feedback
   updatePlayerHitFeedback();
 }
+
 
