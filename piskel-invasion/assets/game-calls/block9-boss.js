@@ -4,7 +4,7 @@
 
 const BOSS_BASE = {
   w: canvas.width * 0.15,
-  h: canvas.height * 0.13,
+  h: canvas.width * 0.15 * 0.8, // mantém proporção visual mais natural
   hp: 40,
   speed: 3.0
 };
@@ -53,18 +53,18 @@ function updateBoss() {
     if (boss.burstIndex >= 4) boss.bursting = false;
   }
 
-  if (boss.shootTimer % 90 === 0) {
-    for (let i = -3; i <= 3; i++) {
-      bossBullets.push({
-        x: cx + i * 10,
-        y: cy,
-        w: canvas.width * 0.015,
-        h: canvas.height * 0.035,
-        vx: i * 0.5,
-        vy: BOSS_BULLET_SPEED
-      });
-    }
+if (boss.shootTimer % 90 === 0) {
+  for (let i = -3; i <= 3; i++) {
+    bossBullets.push({
+      x: cx + i * 10,
+      y: cy,
+      w: canvas.width * 0.012,
+      h: canvas.height * 0.028,
+      vx: i * 0.8,
+      vy: BOSS_BULLET_SPEED
+    });
   }
+}
 
   if (wave >= 6 && boss.shootTimer % 300 === 0) {
     const numMinions = Math.floor(Math.random() * 6) + 3;
@@ -161,4 +161,5 @@ function checkBossHit(bb) {
   }
   return false;
 }
+
 
