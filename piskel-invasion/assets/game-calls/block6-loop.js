@@ -62,8 +62,8 @@ function enemyShoot() {
         enemyBullets.push({
           x: e.x + e.w / 2 - 1,
           y: e.y + e.h,
-          w: canvas.width * 0.01,
-          h: canvas.height * 0.02,
+          w: canvas.width * 0.008,
+          h: canvas.height * 0.018,
           vx: 0,
           vy: ENEMY_BULLET_SPEED * 1.3
         });
@@ -77,9 +77,9 @@ function enemyShoot() {
           enemyBullets.push({
             x: cx + i * 6,
             y: cy,
-            w: canvas.width * 0.015,
-            h: canvas.height * 0.03,
-            vx: i * 0.4,
+            w: canvas.width * 0.012,
+            h: canvas.height * 0.025,
+            vx: i * 0.6,
             vy: ENEMY_BULLET_SPEED * 0.9
           });
         }
@@ -254,4 +254,5 @@ function renderLeaderboard() {
     `<div>${e.name} — ${e.score} pts (Wave ${e.wave})</div>`
   ).join("");
 }
+
 
