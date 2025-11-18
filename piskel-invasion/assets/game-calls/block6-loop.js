@@ -40,13 +40,12 @@ function moveEnemies() {
       e.y += 0.25;
 
     } else if (e.type === "minion") {
-      // Movimento em espiral
-      e.radius += 1.5;          // aumenta o raio da espiral
-      e.angle += 0.1;           // gira lentamente
-      e.x = canvas.width / 2 + Math.cos(e.angle) * e.radius;
-      e.y = ENEMY_OFFSET_Y + Math.sin(e.angle) * e.radius;
+      // Movimento em espiral com centro definido
+      e.radius += 1.5;
+      e.angle += 0.1;
+      e.x = e.centerX + Math.cos(e.angle) * e.radius;
+      e.y = e.centerY + Math.sin(e.angle) * e.radius;
 
-      // remove se sair da tela
       if (e.y > canvas.height + e.h) e.alive = false;
     }
 
@@ -268,7 +267,3 @@ function renderLeaderboard() {
     `<div>${e.name} — ${e.score} pts (Wave ${e.wave})</div>`
   ).join("");
 }
-
-
-
-
