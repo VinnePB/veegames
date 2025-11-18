@@ -2,6 +2,48 @@
 // Bloco 10 — Curva de Dificuldade Infinita
 // ==============================
 
+// --- Gerar diferentes padrões de inimigos ---
+function spawnWave(pattern) {
+  enemies.length = 0;
+
+  if (pattern === "line") {
+    // formação clássica em linha
+    createEnemies();
+
+  } else if (pattern === "v") {
+    // formação em V
+    for (let i = 0; i < 6; i++) {
+      enemies.push({
+        x: canvas.width / 2 + (i - 3) * 40,
+        y: ENEMY_OFFSET_Y + i * 30,
+        w: ENEMY_W,
+        h: ENEMY_H,
+        hp: 1,
+        alive: true,
+        type: "normal",
+        shootTimer: 0
+      });
+    }
+
+  } else if (pattern === "spiral") {
+    // inimigos surgem atrás do boss e fazem movimento circular
+    for (let i = 0; i < 8; i++) {
+      enemies.push({
+        x: canvas.width / 2,
+        y: ENEMY_OFFSET_Y,
+        w: ENEMY_W,
+        h: ENEMY_H,
+        hp: 1,
+        alive: true,
+        type: "minion",
+        shootTimer: 0,
+        angle: i * (Math.PI / 4),
+        radius: 0
+      });
+    }
+  }
+}
+
 // --- Avançar para próxima onda ---
 function nextWave() {
   // garante que o jogo não avança se já acabou
@@ -33,7 +75,10 @@ function nextWave() {
     spawnBoss();
     triggerWarp();
   } else {
-    createEnemies(); // recria inimigos normais
+    // alterna padrões de inimigos
+    const patterns = ["line", "v", "spiral"];
+    const pattern = patterns[(wave - 1) % patterns.length];
+    spawnWave(pattern);
   }
 
   queueFragmentToast();
