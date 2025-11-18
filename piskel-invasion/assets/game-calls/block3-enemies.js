@@ -39,22 +39,5 @@ function createEnemies() {
     }
   }
 }
-function updateEnemies() {
-  for (const en of enemies) {
-    if (!en.alive) continue;
-
-    // Movimento horizontal em onda senoidal
-    en.x += Math.sin(Date.now() / 300 + en.y / 50) * 0.8;
-
-    // Descida lenta
-    en.y += 0.4;
-
-    // Remove se sair da tela
-    if (en.y > canvas.height) {
-      en.alive = false;
-    }
-  }
-}
-
 
 
