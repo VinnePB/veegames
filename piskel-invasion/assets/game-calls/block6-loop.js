@@ -26,20 +26,25 @@ function drawEnemies() {
 }
 
 function moveEnemies() {
-  let edge = false;
   for (const e of enemies) {
     if (!e.alive) continue;
+
     if (e.type === "normal") {
-      e.x += enemyDir * enemySpeed;
-      e.y += Math.sin(performance.now() / 500 + e.x) * 0.2;
+      // Movimento horizontal em onda senoidal
+      e.x += Math.sin(performance.now() / 300 + e.y / 50) * 0.8;
+
+      // Descida lenta
+      e.y += 0.4;
     } else if (e.type === "tank") {
-      e.x += enemyDir * (enemySpeed * 0.5);
+      // Tanques descem mais devagar e com menos oscilação
+      e.x += Math.sin(performance.now() / 400 + e.y / 60) * 0.4;
+      e.y += 0.25;
     }
-    if (e.x < 20 || e.x + e.w > canvas.width - 20) edge = true;
-  }
-  if (edge) {
-    enemyDir *= -1;
-    for (const e of enemies) e.y += canvas.height * 0.03;
+
+    // Remove se sair da tela
+    if (e.y > canvas.height) {
+      e.alive = false;
+    }
   }
 }
 
@@ -254,5 +259,6 @@ function renderLeaderboard() {
     `<div>${e.name} — ${e.score} pts (Wave ${e.wave})</div>`
   ).join("");
 }
+
 
 
