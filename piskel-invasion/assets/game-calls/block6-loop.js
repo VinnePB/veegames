@@ -32,17 +32,26 @@ function moveEnemies() {
     if (e.type === "normal") {
       // Movimento horizontal em onda senoidal
       e.x += Math.sin(performance.now() / 300 + e.y / 50) * 0.8;
-
-      // Descida lenta
       e.y += 0.4;
+
     } else if (e.type === "tank") {
       // Tanques descem mais devagar e com menos oscilação
       e.x += Math.sin(performance.now() / 400 + e.y / 60) * 0.4;
       e.y += 0.25;
+
+    } else if (e.type === "minion") {
+      // Movimento em espiral
+      e.radius += 1.5;          // aumenta o raio da espiral
+      e.angle += 0.1;           // gira lentamente
+      e.x = canvas.width / 2 + Math.cos(e.angle) * e.radius;
+      e.y = ENEMY_OFFSET_Y + Math.sin(e.angle) * e.radius;
+
+      // remove se sair da tela
+      if (e.y > canvas.height + e.h) e.alive = false;
     }
 
-    // Remove se sair da tela
-    if (e.y > canvas.height) {
+    // Remove se sair da tela (para normais/tanks)
+    if ((e.type === "normal" || e.type === "tank") && e.y > canvas.height) {
       e.alive = false;
     }
   }
@@ -259,6 +268,7 @@ function renderLeaderboard() {
     `<div>${e.name} — ${e.score} pts (Wave ${e.wave})</div>`
   ).join("");
 }
+
 
 
 
