@@ -95,7 +95,7 @@ function checkCollisions() {
             powerUps.push({
               x: en.x + en.w / 2 - POWERUP_SIZE / 2,
               y: en.y + en.h / 2 - POWERUP_SIZE / 2,
-              size: canvas.width * 0.05,
+              size: canvas.width * 0.03, // reduz ~40%
               type,
             });
           }
@@ -165,5 +165,6 @@ function checkCollisions() {
   // 6) Feedback
   updatePlayerHitFeedback();
 }
+
 
 
